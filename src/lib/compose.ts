@@ -146,24 +146,17 @@ export async function composeResult({
   ctx.save();
   
   if (printSize === "4r") {
-    // 1. Paper Airplane top right
-    ctx.font = "140px sans-serif";
+    // 1. MERDEKA!! Text Center Right
     ctx.save();
-    ctx.translate(width - 50, 80);
-    ctx.rotate(15 * Math.PI / 180);
-    ctx.fillText("✈️", -70, 70);
-    ctx.restore();
-
-    // 2. MERDEKA!! Text Center Right
-    ctx.save();
-    ctx.translate(width - 250, height * 0.38);
+    ctx.translate(width - 280, height * 0.39);
     ctx.rotate(-5 * Math.PI / 180);
-    ctx.font = '900 65px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = "center"; // Center it so it doesn't overflow right
+    ctx.font = '900 75px "Plus Jakarta Sans", sans-serif';
     // Red shadow
     ctx.fillStyle = "#8B0000";
     ctx.fillText("MERDEKA!!", 6, 6);
     // White border
-    ctx.lineWidth = 12;
+    ctx.lineWidth = 14;
     ctx.strokeStyle = "#FFFFFF";
     ctx.strokeText("MERDEKA!!", 0, 0);
     // Red text
