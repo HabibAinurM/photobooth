@@ -58,7 +58,6 @@ export default function FrameSelectScreen() {
               key={frame.id}
               active={frameId === frame.id}
               swatch={frame.swatch}
-              emoji={frame.emoji}
               name={frame.name}
               onClick={() => selectFrame(frame.id)}
             />
@@ -74,7 +73,6 @@ export default function FrameSelectScreen() {
               key={frame.id}
               active={frameId === frame.id}
               swatch={frame.swatch}
-              emoji={frame.emoji}
               name={frame.name}
               onClick={() => selectFrame(frame.id)}
             />
