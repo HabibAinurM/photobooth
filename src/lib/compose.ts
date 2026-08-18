@@ -104,7 +104,12 @@ export async function composeResult({
   const footerHeight = printSize === "strip" ? 130 : 250;
   const gap = width * 0.05;
 
-  const images = await Promise.all(photos.map((p) => loadImage(p)));
+  let images = await Promise.all(photos.map((p) => loadImage(p)));
+
+  if (printSize === "4r" && images.length === 3) {
+    // Duplikat 3 foto agar mengisi 6 slot (kiri-kanan sama seperti photobooth strip ganda)
+    images = [images[0], images[0], images[1], images[1], images[2], images[2]];
+  }
 
   if (printSize === "strip") {
     const slotW = width - pad * 2;
@@ -146,10 +151,10 @@ export async function composeResult({
   ctx.save();
   
   if (printSize === "4r") {
-    // 1. MERDEKA!! Text Center Right
+    // 1. MERDEKA!! Text Top Right
     ctx.save();
-    ctx.translate(width - 280, height * 0.39);
-    ctx.rotate(-5 * Math.PI / 180);
+    ctx.translate(width - 250, 110);
+    ctx.rotate(10 * Math.PI / 180); // Slight upward tilt in top right corner
     ctx.textAlign = "center"; // Center it so it doesn't overflow right
     ctx.font = '900 75px "Plus Jakarta Sans", sans-serif';
     // Red shadow
@@ -163,19 +168,6 @@ export async function composeResult({
     ctx.fillStyle = "#E41B23";
     ctx.fillText("MERDEKA!!", 0, 0);
     ctx.restore();
-
-    // 3. Center logo 
-    ctx.fillStyle = "#FFFFFF";
-    ctx.beginPath();
-    ctx.arc(width / 2, height * 0.38, 45, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#E41B23";
-    ctx.lineWidth = 8;
-    ctx.stroke();
-    ctx.font = '900 40px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = "#E41B23";
-    ctx.textAlign = "center";
-    ctx.fillText("81", width / 2, height * 0.38 + 15);
 
     // 4. Semangat Merdeka Center Left
     ctx.save();
@@ -203,10 +195,6 @@ export async function composeResult({
     // 5. Starburst Bottom Right
     ctx.font = "120px sans-serif";
     ctx.fillText("💥", width - 120, height * 0.65);
-
-    // 6. Smiley Bottom Left
-    ctx.font = "130px sans-serif";
-    ctx.fillText("😃", 140, height - footerHeight + 20);
   }
   
   ctx.restore();
@@ -243,13 +231,13 @@ export async function composeResult({
   );
 
   // Watermark
-  const wmSize = printSize === "strip" ? 9 : 12;
-  ctx.font = `400 ${wmSize}px "Plus Jakarta Sans", sans-serif`;
-  ctx.fillStyle = "rgba(245, 245, 245, 0.35)";
+  const wmSize = printSize === "strip" ? 9 : 14;
+  ctx.font = `600 ${wmSize}px "Plus Jakarta Sans", sans-serif`;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
   ctx.fillText(
-    `Semarak HUT RI Ke-81 ${settings.villageName} – ${settings.eventDate}`,
+    `Created by bibam studio`,
     width / 2,
-    height - 12
+    height - 15
   );
 
   return canvas.toDataURL("image/png", 1.0);
