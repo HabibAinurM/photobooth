@@ -130,4 +130,4 @@ export const STICKERS: StickerDef[] = [
   { id: "sparkle", emoji: "✨", label: "Kilau" },
 ];
 
-export const PHOTOS_PER_SESSION = 4;
+export const PHOTOS_PER_SESSION = 6;

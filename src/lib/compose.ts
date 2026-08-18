@@ -93,36 +93,15 @@ export async function composeResult({
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Canvas tidak didukung di browser ini");
 
-  // Background
-  const grad = ctx.createLinearGradient(0, 0, 0, height);
-  grad.addColorStop(0, frame.colors.background);
-  grad.addColorStop(1, frame.colors.backgroundAlt ?? frame.colors.background);
-  ctx.fillStyle = grad;
+  // Background - flat red like the image
+  ctx.fillStyle = "#E41B23"; // Red background
   ctx.fillRect(0, 0, width, height);
-
-  // Outer border
-  const borderW = width * 0.03;
-  ctx.strokeStyle = frame.colors.border;
-  ctx.lineWidth = borderW;
-  ctx.strokeRect(borderW / 2, borderW / 2, width - borderW, height - borderW);
 
   const pad = width * 0.08;
 
-  // Header
-  const titleSize = printSize === "strip" ? 26 : 40;
-  ctx.textAlign = "center";
-  ctx.fillStyle = frame.colors.text;
-  ctx.font = `700 ${titleSize}px "Fraunces", serif`;
-  ctx.fillText(`DIRGAHAYU RI 81`, width / 2, pad + titleSize);
-
-  ctx.fillText(
-    "Jatirejo Josjis",
-    width / 2,
-    pad + titleSize * 2.2
-  );
-
-  const headerBottom = pad + titleSize * 2.2 + 28;
-  const footerHeight = printSize === "strip" ? 130 : 150;
+  // Header is empty in the requested image, but we reserve top padding
+  const headerBottom = pad * 0.5; // Small padding at top
+  const footerHeight = printSize === "strip" ? 130 : 250;
   const gap = width * 0.05;
 
   const images = await Promise.all(photos.map((p) => loadImage(p)));
@@ -133,22 +112,111 @@ export async function composeResult({
     const slotH = (availH - gap * (images.length - 1)) / images.length;
     images.forEach((img, i) => {
       const y = headerBottom + i * (slotH + gap);
-      drawCoverImage(ctx, img, pad, y, slotW, slotH, 14);
+      // Draw white background block
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(pad - 4, y - 4, slotW + 8, slotH + 8);
+      drawCoverImage(ctx, img, pad, y, slotW, slotH, 0);
     });
   } else {
+    // 4R Layout
     const cols = 2;
-    const rows = Math.ceil(images.length / cols);
+    const rows = 3; // Fixed 3 rows to match the 6-photo layout
     const slotW = (width - pad * 2 - gap) / cols;
     const availH = height - headerBottom - footerHeight;
     const slotH = (availH - gap * (rows - 1)) / rows;
-    images.forEach((img, i) => {
+    
+    // Draw empty white slots if there are not enough photos
+    for (let i = 0; i < cols * rows; i++) {
       const col = i % cols;
       const row = Math.floor(i / cols);
       const x = pad + col * (slotW + gap);
       const y = headerBottom + row * (slotH + gap);
-      drawCoverImage(ctx, img, x, y, slotW, slotH, 18);
-    });
+      
+      // White border block
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(x - 8, y - 8, slotW + 16, slotH + 16);
+      
+      if (i < images.length) {
+        drawCoverImage(ctx, images[i], x, y, slotW, slotH, 0);
+      }
+    }
   }
+
+  // Draw custom graphical elements to match the image
+  ctx.save();
+  
+  if (printSize === "4r") {
+    // 1. Paper Airplane top right
+    ctx.font = "140px sans-serif";
+    ctx.save();
+    ctx.translate(width - 50, 80);
+    ctx.rotate(15 * Math.PI / 180);
+    ctx.fillText("✈️", -70, 70);
+    ctx.restore();
+
+    // 2. MERDEKA!! Text Center Right
+    ctx.save();
+    ctx.translate(width - 250, height * 0.38);
+    ctx.rotate(-5 * Math.PI / 180);
+    ctx.font = '900 65px "Plus Jakarta Sans", sans-serif';
+    // Red shadow
+    ctx.fillStyle = "#8B0000";
+    ctx.fillText("MERDEKA!!", 6, 6);
+    // White border
+    ctx.lineWidth = 12;
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.strokeText("MERDEKA!!", 0, 0);
+    // Red text
+    ctx.fillStyle = "#E41B23";
+    ctx.fillText("MERDEKA!!", 0, 0);
+    ctx.restore();
+
+    // 3. Center logo 
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath();
+    ctx.arc(width / 2, height * 0.38, 45, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#E41B23";
+    ctx.lineWidth = 8;
+    ctx.stroke();
+    ctx.font = '900 40px "Plus Jakarta Sans", sans-serif';
+    ctx.fillStyle = "#E41B23";
+    ctx.textAlign = "center";
+    ctx.fillText("81", width / 2, height * 0.38 + 15);
+
+    // 4. Semangat Merdeka Center Left
+    ctx.save();
+    ctx.translate(220, height * 0.62);
+    ctx.rotate(-15 * Math.PI / 180);
+    // Box
+    ctx.fillStyle = "#991B1B";
+    ctx.beginPath();
+    ctx.roundRect(-180, -60, 360, 110, 20);
+    ctx.fill();
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 6;
+    ctx.stroke();
+    // Text
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = '900 40px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText("SEMANGAT", -10, -10);
+    ctx.fillText("MERDEKA", -10, 35);
+    // Flag
+    ctx.font = "50px sans-serif";
+    ctx.fillText("🇮🇩", 140, -15);
+    ctx.restore();
+
+    // 5. Starburst Bottom Right
+    ctx.font = "120px sans-serif";
+    ctx.fillText("💥", width - 120, height * 0.65);
+
+    // 6. Smiley Bottom Left
+    ctx.font = "130px sans-serif";
+    ctx.fillText("😃", 140, height - footerHeight + 20);
+  }
+  
+  ctx.restore();
 
   // Stickers (decorative corners)
   const activeStickers = STICKERS.filter((s) => stickers.includes(s.id));
@@ -169,19 +237,17 @@ export async function composeResult({
   // Footer
   const footerTop = height - footerHeight;
   ctx.textAlign = "center";
-  const nameSize = printSize === "strip" ? 16 : 22;
-  if (name.trim()) {
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = `600 ${nameSize}px "Plus Jakarta Sans", sans-serif`;
-    ctx.fillText(name.trim(), width / 2, footerTop + nameSize + 6);
-  }
-
-  const infoSize = printSize === "strip" ? 14 : 19;
+  
+  const titleSize = printSize === "strip" ? 26 : 56;
   ctx.fillStyle = "#FFFFFF";
-  ctx.font = `500 ${infoSize}px "Plus Jakarta Sans", sans-serif`;
-  const infoY = footerTop + (name.trim() ? nameSize + 30 : 24);
-  ctx.fillText(settings.villageName, width / 2, infoY);
-  ctx.fillText(settings.eventDate, width / 2, infoY + infoSize + 6);
+  ctx.font = `600 ${titleSize}px "Fraunces", serif`;
+  ctx.fillText(`Dirgahayu Indonesia ke-81`, width / 2, footerTop + titleSize + 20);
+
+  ctx.fillText(
+    "Jatirejo Josjis",
+    width / 2,
+    footerTop + titleSize * 2.1 + 10
+  );
 
   // Watermark
   const wmSize = printSize === "strip" ? 9 : 12;
