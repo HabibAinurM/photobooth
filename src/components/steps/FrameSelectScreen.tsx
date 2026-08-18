@@ -166,7 +166,7 @@ function FramePreview({ frame, printSize }: { frame: FrameDef; printSize: PrintS
       >
         <div className="text-center shrink-0 mb-2">
            <div style={{ color: frame.colors.text, fontSize: isStrip ? '10px' : '15px', fontWeight: 800, lineHeight: 1.2, fontFamily: '"Fraunces", serif' }}>
-             DIRGAHAYU RI 81
+             DIRGAHAYU RI Ke-81
            </div>
            <div style={{ color: frame.colors.text, fontSize: isStrip ? '10px' : '15px', fontWeight: 800, lineHeight: 1.2, fontFamily: '"Fraunces", serif', marginTop: '2px' }}>
              Jatirejo Josjis
