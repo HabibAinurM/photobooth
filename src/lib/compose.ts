@@ -187,10 +187,7 @@ export async function composeResult({
     ctx.textAlign = "center";
     ctx.fillText("SEMANGAT", -10, -10);
     ctx.fillText("MERDEKA", -10, 35);
-    // Flag
-    ctx.font = "50px sans-serif";
-    ctx.fillText("🇮🇩", 140, -15);
-    ctx.restore();
+  
 
     // 5. Starburst Bottom Right
     ctx.font = "120px sans-serif";
@@ -229,6 +226,13 @@ export async function composeResult({
     width / 2,
     footerTop + titleSize * 2.1 + 10
   );
+
+  if (name && name.trim()) {
+    const nameSize = printSize === "strip" ? 16 : 28;
+    ctx.font = `700 ${nameSize}px "Plus Jakarta Sans", sans-serif`;
+    ctx.fillStyle = "#FDE68A"; // Yellow/Gold color so it stands out
+    ctx.fillText(`- ${name.trim()} -`, width / 2, footerTop + titleSize * 2.1 + 10 + nameSize + 20);
+  }
 
   // Watermark
   const wmSize = printSize === "strip" ? 9 : 14;
