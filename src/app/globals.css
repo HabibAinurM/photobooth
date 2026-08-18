@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@import "@fontsource/fraunces/700.css";
+@import "@fontsource/fraunces/600-italic.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/bebas-neue";
+
+:root {
+  --color-merah: #dc2626;
+  --color-merah-tua: #7f1d1d;
+  --color-krem: #fffdf7;
+  --color-emas: #d4af37;
+  --color-malam: #1c1917;
+}
+
+@theme inline {
+  --font-display: "Fraunces", serif;
+  --font-shout: "Bebas Neue", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --color-merah: var(--color-merah);
+  --color-merah-tua: var(--color-merah-tua);
+  --color-krem: var(--color-krem);
+  --color-emas: var(--color-emas);
+  --color-malam: var(--color-malam);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-krem);
+  color: var(--color-malam);
+}
+
+@keyframes flash-pop {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.animate-flash {
+  animation: flash-pop 350ms ease-out;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-shout {
+  font-family: var(--font-shout);
+  letter-spacing: 0.04em;
+}

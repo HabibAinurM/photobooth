@@ -1,0 +1,133 @@
+import { FrameDef, StickerDef } from "@/types";
+
+export const FRAMES: FrameDef[] = [
+  {
+    id: "merah-putih-classic",
+    name: "Merah Putih Classic",
+    emoji: "🇮🇩",
+    category: "utama",
+    swatch: "from-red-600 via-red-600 to-white",
+    colors: {
+      background: "#FFFDF8",
+      backgroundAlt: "#DC2626",
+      border: "#DC2626",
+      accent: "#DC2626",
+      text: "#7F1D1D",
+      subtext: "#B91C1C",
+    },
+  },
+  {
+    id: "semarak-kemerdekaan",
+    name: "Semarak Kemerdekaan",
+    emoji: "🎉",
+    category: "utama",
+    swatch: "from-amber-400 via-red-600 to-red-800",
+    colors: {
+      background: "#FFF7ED",
+      backgroundAlt: "#B91C1C",
+      border: "#D97706",
+      accent: "#F59E0B",
+      text: "#7C2D12",
+      subtext: "#C2410C",
+    },
+  },
+  {
+    id: "lomba-17an",
+    name: "Lomba 17 Agustus",
+    emoji: "🏅",
+    category: "utama",
+    swatch: "from-sky-500 via-white to-red-600",
+    colors: {
+      background: "#F8FAFC",
+      backgroundAlt: "#1D4ED8",
+      border: "#DC2626",
+      accent: "#2563EB",
+      text: "#1E293B",
+      subtext: "#334155",
+    },
+  },
+  {
+    id: "gold-edition",
+    name: "Gold Edition",
+    emoji: "✨",
+    category: "utama",
+    swatch: "from-yellow-500 via-yellow-300 to-red-700",
+    colors: {
+      background: "#1C1917",
+      backgroundAlt: "#292524",
+      border: "#D4AF37",
+      accent: "#D4AF37",
+      text: "#FDE68A",
+      subtext: "#D4AF37",
+    },
+  },
+  {
+    id: "balap-karung",
+    name: "Balap Karung",
+    emoji: "🥔",
+    category: "lomba",
+    swatch: "from-amber-700 via-amber-500 to-red-600",
+    colors: {
+      background: "#FEF3C7",
+      backgroundAlt: "#92400E",
+      border: "#B45309",
+      accent: "#D97706",
+      text: "#78350F",
+      subtext: "#92400E",
+    },
+  },
+  {
+    id: "tarik-tambang",
+    name: "Tarik Tambang",
+    emoji: "🪢",
+    category: "lomba",
+    swatch: "from-stone-600 via-red-600 to-red-800",
+    colors: {
+      background: "#FAF5EE",
+      backgroundAlt: "#57534E",
+      border: "#78716C",
+      accent: "#DC2626",
+      text: "#44403C",
+      subtext: "#57534E",
+    },
+  },
+  {
+    id: "makan-kerupuk",
+    name: "Makan Kerupuk",
+    emoji: "🍘",
+    category: "lomba",
+    swatch: "from-orange-400 via-red-500 to-red-700",
+    colors: {
+      background: "#FFF1E6",
+      backgroundAlt: "#C2410C",
+      border: "#EA580C",
+      accent: "#F97316",
+      text: "#7C2D12",
+      subtext: "#9A3412",
+    },
+  },
+  {
+    id: "jalan-sehat",
+    name: "Jalan Sehat",
+    emoji: "🚶",
+    category: "lomba",
+    swatch: "from-emerald-500 via-white to-red-600",
+    colors: {
+      background: "#F0FDF4",
+      backgroundAlt: "#15803D",
+      border: "#DC2626",
+      accent: "#16A34A",
+      text: "#14532D",
+      subtext: "#166534",
+    },
+  },
+];
+
+export const STICKERS: StickerDef[] = [
+  { id: "flag", emoji: "🇮🇩", label: "Bendera" },
+  { id: "party", emoji: "🎉", label: "Confetti" },
+  { id: "medal", emoji: "🏅", label: "Medali" },
+  { id: "sparkle", emoji: "✨", label: "Kilau" },
+];
+
+export const PHOTOS_PER_SESSION = 4;
